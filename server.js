@@ -1,21 +1,20 @@
 'use strict';
 
-const express  require('express');
+const express = require('express');
 const superagent = require('superagent');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 require('dotenv').config();
 
-app.use(express.static('.public/styles')); //Was this right?
 app.use(express.urlencoded({extended: true}));
+app.use(express.static('public')); //Was this right?
 
 app.set('view engine', 'ejs');
 
 app.get('/', (request, response) => {
-  response.render('index');
+  response.render('pages/index');
 })
-
 
 
 
