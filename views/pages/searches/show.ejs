@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <Title>Here are some Books</Title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/base.css">
+  </head>
+  <body>
+    <h1>Here are some Books!</h1>
+    <ul>
+      <% bookArr.forEach(book => { %>
+      <li><%= book.title %></li>
+    <%})%>
+    </ul>
+  </body>
+</html>
