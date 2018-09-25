@@ -33,6 +33,11 @@ function searchBook(request,response){
     .then(bookList => {
       response.render('pages/searches/show', {bookArr: bookList});
     })
+    .catch(error => handleError(error, response));
+}
+
+function handleError(err, res) {
+  res.render('pages/error', {error: err, response: res});
 }
 
 function Book (info) {
