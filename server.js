@@ -19,16 +19,29 @@ app.get('/', (request, response) => {
 app.post('/searches', searchBook);
 
 function searchBook(request,response){
-  let url = 'https://www.googleapis.com/book/v1/volumes?q=';
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
   if (request.body.search[1] === 'title') {url += `+intitle:${request.body.search[0]}`;}
   if (request.body.search[1] === 'author') {url += `+inauthor:${request.body.search[0]}`;}
   superagent.get(url)
-    .then(bookResponse => bookResponse.body.items.map(book => {
-    // return new Book(book.valumeInfo);
-      console.log(book.volumeInfo);
-    }))
+    .then(bookResponse => {
+      const bookList = bookResponse.body.items.map(book => {
+        const bookItem = new Book(book);
+        return bookItem;
+      });
+      return bookList;
+    })
+    .then(bookList => {
+      response.render('pages/searches/show', {bookArr: bookList});
+    })
 }
 
+function Book (info) {
+  this.title = info.volumeInfo.title || 'No Title Available';
+  this.author = info.volumeInfo.authors || 'Auhtor information unvailable';
+  // this.isbn = info.volumeInfo.industryIdentifiers[0].identifier;
+  this.imgUrl = info.volumeInfo.imageLinks.thumbnail;
+  this.description = info.volumeInfo.description || 'No description available';
+}
 
 
 
