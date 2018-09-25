@@ -1,0 +1,16 @@
+h1 {
+  height: 30px;
+  border: solid;
+  width: 100%;
+  text-align: center;
+  border-top: none;
+  background-color: lightblue;
+}
+
+div {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
