@@ -17,9 +17,38 @@ app.set('view engine', 'ejs');
 
 app.get('/', getBooks);
 
+app.get('/searches', homepage);
+
 app.get('/books/:book_id', getBookDetail);
 
 app.post('/searches', searchBook);
+
+app.get('/add', showForm);
+
+app.post('/add', addBook);
+
+
+function addBook(request, response) {
+  console.log(request.body);
+  // DESTRUCTURING
+  let { title, description, category, contact, status } = request.body;
+  // let title = request.body.title;
+  // let description = request.body.description;
+  // let category = request.body.category;
+  // let contact = request.body.contact;
+  // let status = request.body.status;
+
+  let SQL = 'INSERT INTO tasks(title, description, category, contact, status) VALUES ($1, $2, $3, $4, $5);';
+  let values = [title, description, category, contact, status];
+
+  return client.query(SQL, values)
+    .then(response.redirect('/'))
+    .catch(err => handleError(err, response));
+}
+
+function showForm(request, response) {
+  response.render('pages/add-view');
+}
 
 function getBookDetail(request, response) {
   let SQL = 'SELECT * FROM books WHERE id=$1;';
@@ -36,7 +65,9 @@ function getBookDetail(request, response) {
 }
 
 
-
+function homepage(request, response) {
+  response.render('pages/searches/new');
+}
 
 
 
@@ -48,7 +79,7 @@ function getBooks(request, response) {
     .catch(handleError);
 }
 
-function searchBook(request,response){
+function searchBook(request, response) {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
   if (request.body.search[1] === 'title') {url += `+intitle:${request.body.search[0]}`;}
   if (request.body.search[1] === 'author') {url += `+inauthor:${request.body.search[0]}`;}
