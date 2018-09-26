@@ -1,36 +1,18 @@
 <!DOCTYPE html>
-<html lang='en'>
-  <head>
-    <title>Book Collection</title>
-    <link rel="stylesheet" type="text/css" href="styles/reset.css">
-    <link rel="stylesheet" type="text/css" href="styles/layout.css">
-    <link rel="stylesheet" type="text/css" href="styles/modules.css">
-    <link rel="stylesheet" type="text/css" href="styles/base.css">
-    <link rel="stylesheet" type="text/css" href="styles/icons.css">
-  </head>
+<html>
   <body>
     <main>
-      <h1>Search by Title or Author</h1>
-      <div class = "book-entry">
-      <form action="/searches" method="post">
-      <input type="text" name="search" placeholder="Enter a title or author" required>
-      </div>
-      <div class = "radio">
-      <fieldset>
-        <label for="title">
-          <span>Title</span>
-          <input type="radio" name="search" value="title" required>
-        </label>
-      </fieldset>
-      <fieldset>
-        <label for="author">
-          <span>Author</span>
-          <input type="radio" name="search" value="author" required>
-        </label>
-      </fieldset>
-      </div>
-      <button type="submit">Search the Google Books API</button>
-    </form>
+      <section class="book-view container">
+            <h1> Number of Books : <%= results.length %></h1>
+          <ul id="book-list">
+            <% results.forEach(book => { %>
+              <li class="book-item" data-id="<%= book.id %>">
+                <h4>Books: <%= book.title %></h4>
+                <a href="/books/<%= book.id%>">View Details</a>
+              </li>
+            <% }) %>
+          </ul>
+      </section>
     </main>
   </body>
 </html>
