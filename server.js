@@ -23,31 +23,29 @@ app.get('/books/:book_id', getBookDetail);
 
 app.post('/searches', searchBook);
 
-app.get('/add', showForm);
-
 app.post('/add', addBook);
 
 
 function addBook(request, response) {
   console.log(request.body);
   // DESTRUCTURING
-  let { title, description, category, contact, status } = request.body;
+  let { title, author, isbn, image_url, description, bookshelf } = request.body;
   // let title = request.body.title;
   // let description = request.body.description;
   // let category = request.body.category;
   // let contact = request.body.contact;
   // let status = request.body.status;
 
-  let SQL = 'INSERT INTO tasks(title, description, category, contact, status) VALUES ($1, $2, $3, $4, $5);';
-  let values = [title, description, category, contact, status];
+  let SQL = 'INSERT INTO books(title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
+  let values = [title, author, isbn, image_url, description, bookshelf];
 
   return client.query(SQL, values)
     .then(response.redirect('/'))
     .catch(err => handleError(err, response));
 }
 
-function showForm(request, response) {
-  response.render('pages/add-view');
+function showForm(response, booklist) {
+  response.render('pages/add-view', {result: booklist});
 }
 
 function getBookDetail(request, response) {
@@ -92,7 +90,8 @@ function searchBook(request, response) {
       return bookList;
     })
     .then(bookList => {
-      response.render('pages/searches/show', {bookArr: bookList});
+      response.render('pages/searches/show', { bookArr: bookList });
+      showForm(response, bookList);
     })
     .catch(error => handleError(error, response));
 }
@@ -103,8 +102,8 @@ function handleError(err, res) {
 
 function Book (info) {
   this.title = info.volumeInfo.title || 'No Title Available';
-  this.author = info.volumeInfo.authors || 'Auhtor information unvailable';
-  // this.isbn = info.volumeInfo.industryIdentifiers[0].identifier;
+  this.author = info.volumeInfo.authors || 'Author information unvailable';
+  this.isbn = `${info.volumeInfo.industryIdentifiers[0].type} ${info.volumeInfo.industryIdentifiers[0].identifier}`;
   this.imgUrl = info.volumeInfo.imageLinks.thumbnail;
   this.description = info.volumeInfo.description || 'No description available';
 }
