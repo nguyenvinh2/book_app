@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html>
+  <%- include('../layout/head') %>
   <body>
-    <main>
+      <%- include('../layout/header') %>
+
       <section class="book-view container">
-            <h1> Number of Books : <%= results.length %></h1>
-          <ul id="book-list">
+            <h2> Number of Books : <%= results.length %></h1>
             <% results.forEach(book => { %>
-              <li class="book-item" data-id="<%= book.id %>">
-                <h4>Books: <%= book.title %></h4>
+            <ul class="book-list">
+              <li data-id="<%= book.id %>">
+                <img src=<%= book.image_url %>>
+              </li>
+              <li data-id="<%= book.id %>">
+                <h4>Title: <%= book.title %></h4>
+              </li>
+              <li data-id="<%= book.id %>">
+                <p>Author: <%= book.author %></p>
+              </li>
+              <li data-id="<%= book.id %>">
                 <a href="/books/<%= book.id%>">View Details</a>
               </li>
+            </ul>
             <% }) %>
-          </ul>
       </section>
-      <a href="/searches">Search Books!</a>
-    </main>
   </body>
 </html>
