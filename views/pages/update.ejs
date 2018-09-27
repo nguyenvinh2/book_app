@@ -25,23 +25,19 @@
             <img src=<%= book.image_url %>>
           </li>
           <li class="book-item" data-id="<%= book.id %>">
-          <button type="button" id="edit">Edit Book</button>
-          </li>
-          <li class="book-item" data-id="<%= book.id %>">
-          <button type="button" id="delete">Delete Book</button>
+            <a href="/">Back to Summary View</a>
           </li>
         </ul>
       </section>
-
       <section class="book-view-update">
-        <form id="update-form" action="/update/<%=book.id%>" method="post">
+        <form id="update-form" action="/put" method="post">
           <input type="text" name="title" value="<%= book.title %>" data-id="<%= book.id %>">
           <input type="text" name="author" value="<%= book.author %>">
           <textarea name="description" value="<%= book.description %>" wrap="soft"><%= book.description %></textarea>
           <input type="text" name="isbn" value="<%= book.isbn %>">
           <input type="text" name="imageurl" value="<%= book.image_url %>">
           <input type="text" name="bookshelf" placeholder="Bookshelf Number">
-          <button type="submit">Update Book</button>
+          <button  class="create-view-container <%=count%>" type="submit">Update Book</button>
         </form>
       </section>
   </body>
