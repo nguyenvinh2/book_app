@@ -25,9 +25,24 @@ app.post('/searches', searchBook);
 
 app.post('/add', addBook);
 
+app.post('/update/:book_id', updateBook);
+
+function updateBook(request, response) {
+  console.log(request.params.book_id);
+  // destructure variables
+  let { title, author, isbn, imageurl, description, bookshelf } = request.body;
+  // need SQL to update the specific task that we were on
+  let SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7;`;
+  // use request.params.task_id === whatever task we were on
+  let values = [title, author, isbn, imageurl, description, bookshelf, request.params.book_id];
+
+  client.query(SQL, values)
+    .then(response.redirect(`/books/${request.params.book_id}`))
+    .catch(err => handleError(err, response));
+}
+
 
 function addBook(request, response) {
-  console.log(request.body);
   let { title, author, isbn, imageurl, description, bookshelf } = request.body;
   let SQL = 'INSERT INTO books(title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
   let values = [title, author, isbn, imageurl, description, bookshelf];
@@ -39,11 +54,9 @@ function addBook(request, response) {
 function getBookDetail(request, response) {
   let SQL = 'SELECT * FROM books WHERE id=$1;';
   let values = [request.params.book_id];
-  console.log(values);
 
   return client.query(SQL, values)
     .then(result => {
-      console.log(result);
       response.render('pages/detail-view', { book: result.rows[0] });
 
     })
@@ -69,7 +82,6 @@ function searchBook(request, response) {
   let url;
   if (request.body.search[1] === 'title') { url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${request.body.search[0]}&maxResults=40`; }
   else if (request.body.search[1] === 'author') {url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${request.body.search[0]}&maxResults=40`; }
-  console.log(url);
   superagent.get(url)
     .then(bookResponse => {
       const bookList = bookResponse.body.items.map(book => {
