@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
+  <link rel="stylesheet" type="text/css" href="../styles/reset.css">
+  <link rel="stylesheet" type="text/css" href="../styles/layout.css">
+  <link rel="stylesheet" type="text/css" href="../styles/modules.css">
+  <link rel="stylesheet" type="text/css" href="../styles/base.css">
+  <link rel="stylesheet" type="text/css" href="../styles/icons.css">
   <body>
-    <main>
+      <%- include('../layout/header') %>
       <section class="book-view container">
-        <ul id="book-list">
+        <ul class="book-list">
           <li class="book-item" data-id="<%= book.id %>">
             <h4>Book: <%= book.title %></h4>
+          </li>  
+          <li class="book-item" data-id="<%= book.id %>">
             <p>Author: <%= book.author %></p>
+          </li>
+          <li class="book-item" data-id="<%= book.id %>">
             <p>Description: <%= book.description %></p>
+          </li>
+          <li class="book-item" data-id="<%= book.id %>">
             <p>ISBN: <%= book.isbn %></p>
-            <img src=<%= book.image_url %>><br>
+          </li>
+          <li class="book-item" data-id="<%= book.id %>">
+            <img src=<%= book.image_url %>>
+          </li>
+          <li class="book-item" data-id="<%= book.id %>">
             <a href="/">Back to Summary View</a>
           </li>
         </ul>
       </section>
-    </main>
   </body>
 </html>

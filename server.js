@@ -10,7 +10,7 @@ client.connect();
 client.on('error', err => console.error(err));
 
 require('dotenv').config();
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public')); //Was this right?
 
 app.set('view engine', 'ejs');
@@ -28,24 +28,12 @@ app.post('/add', addBook);
 
 function addBook(request, response) {
   console.log(request.body);
-  // DESTRUCTURING
-  let { title, author, isbn, image_url, description, bookshelf } = request.body;
-  // let title = request.body.title;
-  // let description = request.body.description;
-  // let category = request.body.category;
-  // let contact = request.body.contact;
-  // let status = request.body.status;
-
+  let { title, author, isbn, imageurl, description, bookshelf } = request.body;
   let SQL = 'INSERT INTO books(title, author, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6);';
-  let values = [title, author, isbn, image_url, description, bookshelf];
-
+  let values = [title, author, isbn, imageurl, description, bookshelf];
   return client.query(SQL, values)
     .then(response.redirect('/'))
     .catch(err => handleError(err, response));
-}
-
-function showForm(response, booklist) {
-  response.render('pages/add-view', {result: booklist});
 }
 
 function getBookDetail(request, response) {
@@ -78,36 +66,45 @@ function getBooks(request, response) {
 }
 
 function searchBook(request, response) {
-  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
-  if (request.body.search[1] === 'title') {url += `+intitle:${request.body.search[0]}`;}
-  if (request.body.search[1] === 'author') {url += `+inauthor:${request.body.search[0]}`;}
+  let url;
+  if (request.body.search[1] === 'title') { url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${request.body.search[0]}&maxResults=40`; }
+  else if (request.body.search[1] === 'author') {url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:${request.body.search[0]}&maxResults=40`; }
+  console.log(url);
   superagent.get(url)
     .then(bookResponse => {
       const bookList = bookResponse.body.items.map(book => {
         const bookItem = new Book(book);
+        book.volumeInfo.imageLinks !== undefined ? bookItem.addImage(book.volumeInfo.imageLinks.thumbnail) : bookItem.addImage('Image Unavailable');
+        book.volumeInfo.industryIdentifiers !== undefined ? bookItem.addISBN(book.volumeInfo.industryIdentifiers[0].type, book.volumeInfo.industryIdentifiers[0].identifier) : bookItem.addISBN('ISBN', 'Unavailable');
         return bookItem;
       });
       return bookList;
     })
     .then(bookList => {
       response.render('pages/searches/show', { bookArr: bookList });
-      showForm(response, bookList);
     })
     .catch(error => handleError(error, response));
 }
 
 function handleError(err, res) {
-  res.render('pages/error', {error: err, response: res});
+  res.render('pages/error', { error: err, response: res });
 }
 
-function Book (info) {
-  this.title = info.volumeInfo.title || 'No Title Available';
-  this.author = info.volumeInfo.authors || 'Author information unvailable';
-  this.isbn = `${info.volumeInfo.industryIdentifiers[0].type} ${info.volumeInfo.industryIdentifiers[0].identifier}`;
-  this.imgUrl = info.volumeInfo.imageLinks.thumbnail;
-  this.description = info.volumeInfo.description || 'No description available';
+function Book(info) {
+  this.title = info.volumeInfo.title || 'Title Information Available';
+  this.author = info.volumeInfo.authors || 'Author Information Unvailable';
+  this.isbn = '';
+  this.imgUrl ='';
+  this.description = info.volumeInfo.description || 'Description Unavailable';
 }
 
+Book.prototype.addImage = function(image) {
+  this.imgUrl = image;
+}
+
+Book.prototype.addISBN = function (isbn, number) {
+  this.isbn = `${isbn}: ${number}`;
+}
 
 
 
