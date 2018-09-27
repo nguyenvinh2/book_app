@@ -5,7 +5,8 @@ const superagent = require('superagent');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const pg = require('pg');
-const client = new pg.Client('postgres://postgres:hacker@localhost:5432/books_app'); //postgres:hacker greatbignate:3rJr759
+require('dotenv').config();
+const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 client.on('error', err => console.error(err));
 
