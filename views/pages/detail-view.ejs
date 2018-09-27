@@ -28,7 +28,12 @@
           <button type="button" id="edit">Edit Book</button>
           </li>
           <li class="book-item" data-id="<%= book.id %>">
-          <button type="button" id="delete">Delete Book</button>
+
+          <form id="delete-form" action="/delete/<%=book.id%>" method="post"> 
+            <!-- Remember the location!!! -->
+          <button type="submit">Delete Book</button>
+          </form>
+
           </li>
         </ul>
       </section>

@@ -5,13 +5,13 @@ const superagent = require('superagent');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const pg = require('pg');
-const client = new pg.Client('postgres://postgres:hacker@localhost:5432/books_app');
+const client = new pg.Client('postgres://postgres:hacker@localhost:5432/books_app'); //postgres:hacker greatbignate:3rJr759
 client.connect();
 client.on('error', err => console.error(err));
 
 require('dotenv').config();
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public')); //Was this right?
+app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 
@@ -27,6 +27,8 @@ app.post('/add', addBook);
 
 app.post('/update/:book_id', updateBook);
 
+app.post('/delete/:book_id', deleteBook);
+
 function updateBook(request, response) {
   console.log(request.params.book_id);
   // destructure variables
@@ -41,6 +43,15 @@ function updateBook(request, response) {
     .catch(err => handleError(err, response));
 }
 
+function deleteBook(request, response) {
+  let values = [request.params.book_id];
+  console.log(values);
+  let SQL = `DELETE FROM books WHERE id=$1;`;
+
+  client.query(SQL, values)
+    .then(response.redirect('/'))
+    .catch(err => handleError(err, response));
+}
 
 function addBook(request, response) {
   let { title, author, isbn, imageurl, description, bookshelf } = request.body;
