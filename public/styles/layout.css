@@ -89,14 +89,6 @@ div {
     align-content: center;
   }
 
-  div {
-    height: 50px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
   .book-list {
     border: solid;
     display: flex;
