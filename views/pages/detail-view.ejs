@@ -10,8 +10,11 @@
       <section class="book-view container">
         <ul class="book-list">
           <li class="book-item" data-id="<%= book.id %>">
-            <h4>Book: <%= book.title %></h4>
-          </li>  
+            <h4>Title: <%= book.title %></h4>
+          </li>
+          <li class="book-item" data-id="<%= book.id %>">
+            <img src=<%= book.image_url %>>
+          </li>
           <li class="book-item" data-id="<%= book.id %>">
             <p>Author: <%= book.author %></p>
           </li>
@@ -21,33 +24,37 @@
           <li class="book-item" data-id="<%= book.id %>">
             <p>ISBN: <%= book.isbn %></p>
           </li>
-          <li class="book-item" data-id="<%= book.id %>">
-            <img src=<%= book.image_url %>>
-          </li>
-          <li class="book-item" data-id="<%= book.id %>">
-          <button type="button" id="edit">Edit Book</button>
-          </li>
-          <li class="book-item" data-id="<%= book.id %>">
-
           <form id="delete-form" action="/delete/<%=book.id%>" method="post"> 
-            <!-- Remember the location!!! -->
-          <button type="submit">Delete Book</button>
-          </form>
-
+          <li class="book-item detail-buttons" data-id="<%= book.id %>">
+            <button type="button" class="edit">Edit Book</button>
+          </li>
+          <li class="book-item detail-buttons" data-id="<%= book.id %>">
+              <button type="submit">Delete Book</button>
+           </form>
           </li>
         </ul>
       </section>
 
       <section class="book-view-update">
         <form id="update-form" action="/update/<%=book.id%>" method="post">
-          <input type="text" name="title" value="<%= book.title %>" data-id="<%= book.id %>">
-          <input type="text" name="author" value="<%= book.author %>">
-          <textarea name="description" value="<%= book.description %>" wrap="soft"><%= book.description %></textarea>
-          <input type="text" name="isbn" value="<%= book.isbn %>">
-          <input type="text" name="imageurl" value="<%= book.image_url %>">
-          <input type="text" name="bookshelf" placeholder="Bookshelf Number">
-          <button type="submit">Update Book</button>
+          <label for="title">Title</label><br>
+          <input type="text" name="title" value="<%= book.title %>" data-id="<%= book.id %>"><br>
+          <label for="Author">Author</label><br>
+          <input type="text" name="author" value="<%= book.author %>"><br>
+          <label for="description">Book Summary</label><br>
+          <textarea name="description" value="<%= book.description %>" wrap="soft"><%= book.description %></textarea><br>
+          <label for="isbn">ISBN</label><br>
+          <input type="text" name="isbn" value="<%= book.isbn %>"><br>
+          <label for="image">Host Image Location</label><br>
+          <input type="text" name="imageurl" value="<%= book.image_url %>"><br>
+          <label for="bookshelf">Bookshelf Number</label><br>
+          <input type="number" name="bookshelf" placeholder="Bookshelf Number"><br>
+          <button class="edit" type="submit">Update Book</button>
+          <button class="edit" type="button">Go Back</button>
         </form>
       </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/app.js"></script>
   </body>
 </html>

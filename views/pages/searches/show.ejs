@@ -7,6 +7,7 @@
       <% let count = 0; %>
       <% bookArr.forEach(book => { %>
       <ul id="add-button">
+        <li><img src=<%= book.imgUrl%> ></li>
         <li><%= book.title %></li>
         <li>By: <%= book.author %></li>
         <button class="button-id <%=count%>" type="submit">Add This Book!</button>
@@ -18,8 +19,9 @@
           <textarea name="description" value="<%= book.description %>" wrap="hard"><%= book.description %></textarea>
           <input type="text" name="isbn" value="<%= book.isbn %>">
           <input type="text" name="imageurl" value="<%= book.imgUrl %>">
-          <input type="text" name="bookshelf" placeholder="Bookshelf Number">
-          <button  class="create-view-container <%=count%>" type="submit">Save Book</button>
+          <input type="number" name="bookshelf" placeholder="Bookshelf Number">
+          <button class="create-view-container <%=count%>" type="submit">Save Book</button>
+          <button class="create-view-container <%=count%>" type="button">Hide Form</button>
         </form>
       </section>
       <%count ++; %>

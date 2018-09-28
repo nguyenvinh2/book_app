@@ -41,14 +41,16 @@ a {
   margin-bottom: 10px;
   margin-right: auto;
   margin-left: auto;
+  align-items: center;
 }
 
 button {
-    width: 50%;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  width: 50%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
 
 .create-view-container {
   text-align: center;
@@ -64,26 +66,51 @@ button {
   margin-left: auto;
 }
 
-.create-view-container button {
-  text-align: center;
-  border: none;
-  width: 50%;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  align-content: center;
-  flex-direction: row;
-}
-
-  input {
-    width: 90%;
-    height: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+  .create-view-container button {
+    text-align: center;
+    border: none;
+    width: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    align-content: center;
+    flex-direction: row;
   }
+
+input {
+  width: 90%;
+  height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 textarea {
   width: 90%;
   height: 100px;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.detail-buttons button {
+  align-items: center;
+  justify-content: center;
+  display: block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.book-view-update {
+  padding: 5%;
+  text-align: left;
+  width: 30%;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: solid;
+  margin-bottom: 10px;
+  margin-right: auto;
+  margin-left: auto;
 }
