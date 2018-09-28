@@ -19,3 +19,21 @@ h4 {
   font-size: 30px;
   font: bold;
 }
+
+
+@media screen and (max-width: 768px) {
+
+  main {
+    border: solid;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 90%;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+  }
+
+}

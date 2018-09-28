@@ -3,7 +3,7 @@
   <%- include('../../layout/head') %>
   <body>
   <%- include('../../layout/header') %>
-    <h1>Here are some Books!</h1>
+    <h2>Here are some Books!</h2>
       <% let count = 0; %>
       <% bookArr.forEach(book => { %>
       <ul id="add-button">
@@ -19,7 +19,7 @@
           <textarea name="description" value="<%= book.description %>" wrap="hard"><%= book.description %></textarea>
           <input type="text" name="isbn" value="<%= book.isbn %>">
           <input type="text" name="imageurl" value="<%= book.imgUrl %>">
-          <input type="number" name="bookshelf" placeholder="Bookshelf Number">
+          <input type="text" name="bookshelf" placeholder="Bookshelf Category">
           <button class="create-view-container <%=count%>" type="submit">Save Book</button>
           <button class="create-view-container <%=count%>" type="button">Hide Form</button>
         </form>

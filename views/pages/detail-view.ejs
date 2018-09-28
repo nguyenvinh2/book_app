@@ -7,8 +7,11 @@
   <link rel="stylesheet" type="text/css" href="../styles/icons.css">
   <body>
       <%- include('../layout/header') %>
-      <section class="book-view container">
-        <ul class="book-list">
+      <section class="detail-view container">
+        <ul class="detail-list">
+          <li class="book-item" data-id="<%= book.id %>">
+            <h3>Bookshelf Category: <%= book.bookshelf %></h4>
+          </li>
           <li class="book-item" data-id="<%= book.id %>">
             <h4>Title: <%= book.title %></h4>
           </li>
@@ -25,18 +28,20 @@
             <p>ISBN: <%= book.isbn %></p>
           </li>
           <form id="delete-form" action="/delete/<%=book.id%>" method="post"> 
-          <li class="book-item detail-buttons" data-id="<%= book.id %>">
-            <button type="button" class="edit">Edit Book</button>
-          </li>
-          <li class="book-item detail-buttons" data-id="<%= book.id %>">
+            <input type="hidden" name="_method" value="delete">
+            <li class="book-item detail-buttons" data-id="<%= book.id %>">
+              <button type="button" class="edit">Edit Book</button>
+            </li>
+            <li class="book-item detail-buttons" data-id="<%= book.id %>">
               <button type="submit">Delete Book</button>
+            </li>
            </form>
-          </li>
         </ul>
       </section>
 
       <section class="book-view-update">
         <form id="update-form" action="/update/<%=book.id%>" method="post">
+          <input type="hidden" name="_method" value="put">
           <label for="title">Title</label><br>
           <input type="text" name="title" value="<%= book.title %>" data-id="<%= book.id %>"><br>
           <label for="Author">Author</label><br>
@@ -47,8 +52,8 @@
           <input type="text" name="isbn" value="<%= book.isbn %>"><br>
           <label for="image">Host Image Location</label><br>
           <input type="text" name="imageurl" value="<%= book.image_url %>"><br>
-          <label for="bookshelf">Bookshelf Number</label><br>
-          <input type="number" name="bookshelf" placeholder="Bookshelf Number"><br>
+          <label for="bookshelf">Bookshelf Category</label><br>
+          <input type="text" name="bookshelf" value="<%=book.bookshelf %>"><br>
           <button class="edit" type="submit">Update Book</button>
           <button class="edit" type="button">Go Back</button>
         </form>

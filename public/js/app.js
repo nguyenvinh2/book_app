@@ -23,6 +23,6 @@ $('button').click(function () {
 $('button').click(function () {
   if ($(this).attr('class') === 'edit') {
     $('.book-view-update').toggle();
-    $('.book-view.container').toggle();
+    $('.detail-view.container').toggle();
   }
 });
